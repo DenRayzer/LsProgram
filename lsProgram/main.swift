@@ -16,24 +16,18 @@ if a?[1] == "-a" { isHiddenFilesSkip = false }
 
 extension FileManager {
     func urls(for directory: FileManager.SearchPathDirectory, skipsHiddenFiles: Bool = isHiddenFilesSkip ) -> [URL]? {
-     //   var j = FileManager.default.currentDirectoryPath
         let documentsURL = NSURL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-       
         let fileURLs = try? contentsOfDirectory(at: documentsURL as URL, includingPropertiesForKeys: nil, options: skipsHiddenFiles ? .skipsHiddenFiles : [] )
         
         return fileURLs
     }
 }
 
-if a?[1] != "-l" {
-    for i in FileManager.default.urls(for: .documentDirectory)! { print(i.lastPathComponent) }
-}
+if a?[1] != "-l" { for i in FileManager.default.urls(for: .documentDirectory)! { print(i.lastPathComponent) } }
 
 if a?[1] == "-l" {
     for i in FileManager.default.urls(for: .documentDirectory)! {
-        let fileURL: URL = i
-        let attributes = try FileManager.default.attributesOfItem(atPath: fileURL.path)
-        
+        let attributes = try FileManager.default.attributesOfItem(atPath: i.path)
         print("""
             \(i.lastPathComponent)
             OwnerAccountName:  \(attributes[.ownerAccountName]!)
